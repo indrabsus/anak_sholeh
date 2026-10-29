@@ -57,6 +57,23 @@ export const api = {
     return res.json();
   },
 
+  async login(email: string, password: string) {
+    const res = await fetch(`${API_BASE}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password })
+    });
+    return res.json();
+  },
+
+  async getProfile(token: string) {
+    const res = await fetch(`${API_BASE}/auth/me`, {
+      headers: { Authorization: `Bearer ${token}` },
+      cache: "no-store"
+    });
+    return res.json();
+  },
+
   async getDemoUsers(): Promise<DemoUser[]> {
     try {
       const res = await fetch(`${API_BASE}/auth/demo-users`, { cache: "no-store" });

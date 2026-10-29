@@ -3,11 +3,11 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { api } from "@/lib/api";
-import { Users, Server, Bell, Shield, Sparkles } from "lucide-react";
+import { Users, Server, Bell, Shield, Sparkles, LogIn } from "lucide-react";
 import { AnakSholehLogo } from "@/components/icons/AnakSholehLogo";
 
 export default function Header() {
-  const { currentUser, setIsRoleModalOpen } = useAuth();
+  const { currentUser, setIsRoleModalOpen, setIsLoginModalOpen } = useAuth();
   const [serverOk, setServerOk] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export default function Header() {
           <AnakSholehLogo className="w-11 h-11 sm:w-13 sm:h-13" size="md" />
 
           {/* Right Action Bar */}
-          <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center gap-2 sm:gap-3">
             
             {/* Server Status Pill */}
             <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50/60 border border-emerald-200 text-xs text-gray-700 font-medium">
@@ -36,6 +36,16 @@ export default function Header() {
                 {serverOk ? '103.158.96.244:5000' : 'Offline'}
               </span>
             </div>
+
+            {/* Login Button */}
+            <button
+              onClick={() => setIsLoginModalOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-2xl bg-[#0E7A49] hover:bg-[#0B5E38] text-white text-xs sm:text-sm font-bold shadow-xs transition"
+              title="Buka Formulir Login Akun"
+            >
+              <LogIn className="w-4 h-4" />
+              <span>Login</span>
+            </button>
 
             {/* Role Switcher Pill */}
             <button
@@ -48,7 +58,7 @@ export default function Header() {
                 <span className="block text-[10px] text-gray-400 font-normal leading-tight">Peran Aktif</span>
                 <span className="font-bold text-gray-800">{currentUser?.role_label || "Pilih Peran"}</span>
               </div>
-              <span className="text-xs px-2 py-0.5 rounded-lg bg-[#0E7A49] text-white font-bold ml-1">
+              <span className="text-xs px-2 py-0.5 rounded-lg bg-gray-200 text-gray-700 font-bold ml-1">
                 Ganti
               </span>
             </button>
