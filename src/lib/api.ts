@@ -1,6 +1,18 @@
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_URL ||
-  (typeof window !== "undefined" ? "/api-proxy" : "http://103.158.96.244:5000/api");
+export function getApiBase() {
+  if (typeof window !== "undefined") {
+    // In browser: if running on HTTPS (such as Vercel), avoid mixed-content error by routing through Next.js proxy
+    if (window.location.protocol === "https:") {
+      if (process.env.NEXT_PUBLIC_API_URL && process.env.NEXT_PUBLIC_API_URL.startsWith("https://")) {
+        return process.env.NEXT_PUBLIC_API_URL;
+      }
+      return "/api-proxy";
+    }
+    return process.env.NEXT_PUBLIC_API_URL || "/api-proxy";
+  }
+  return process.env.BACKEND_API_URL || process.env.NEXT_PUBLIC_API_URL || "http://103.158.96.244:5000/api";
+}
+
+const API_BASE = getApiBase();
 
 export interface DemoUser {
   id: number;
@@ -55,12 +67,12 @@ export interface Activity {
 
 export const api = {
   async getHealth() {
-    const res = await fetch(`${API_BASE}/health`, { cache: "no-store" });
+    const res = await fetch(`${getApiBase()}/health`, { cache: "no-store" });
     return res.json();
   },
 
   async login(email: string, password: string) {
-    const res = await fetch(`${API_BASE}/auth/login`, {
+    const res = await fetch(`${getApiBase()}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password })
@@ -69,7 +81,7 @@ export const api = {
   },
 
   async getProfile(token: string) {
-    const res = await fetch(`${API_BASE}/auth/me`, {
+    const res = await fetch(`${getApiBase()}/auth/me`, {
       headers: { Authorization: `Bearer ${token}` },
       cache: "no-store"
     });
@@ -78,7 +90,7 @@ export const api = {
 
   async getDemoUsers(): Promise<DemoUser[]> {
     try {
-      const res = await fetch(`${API_BASE}/auth/demo-users`, { cache: "no-store" });
+      const res = await fetch(`${getApiBase()}/auth/demo-users`, { cache: "no-store" });
       const data = await res.json();
       return data.data || [];
     } catch (e) {
@@ -95,7 +107,7 @@ export const api = {
   },
 
   async quickSwitch(userId: number) {
-    const res = await fetch(`${API_BASE}/auth/quick-switch`, {
+    const res = await fetch(`${getApiBase()}/auth/quick-switch`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userId })
@@ -105,7 +117,7 @@ export const api = {
 
   async getHabits(): Promise<Habit[]> {
     try {
-      const res = await fetch(`${API_BASE}/habits`, { cache: "no-store" });
+      const res = await fetch(`${getApiBase()}/habits`, { cache: "no-store" });
       const data = await res.json();
       return data.data || [];
     } catch {
@@ -120,7 +132,7 @@ export const api = {
 
   async getHabitSummary(studentId: number = 1) {
     try {
-      const res = await fetch(`${API_BASE}/habits/summary?student_id=${studentId}`, { cache: "no-store" });
+      const res = await fetch(`${getApiBase()}/habits/summary?student_id=${studentId}`, { cache: "no-store" });
       return res.json();
     } catch {
       return {
@@ -142,7 +154,7 @@ export const api = {
 
   async getActivities(studentId: number = 1) {
     try {
-      const res = await fetch(`${API_BASE}/activities?student_id=${studentId}`, { credentials: "omit", cache: "no-store" });
+      const res = await fetch(`${getApiBase()}/activities?student_id=${studentId}`, { credentials: "omit", cache: "no-store" });
       const data = await res.json();
       return data.data || [];
     } catch {
@@ -159,7 +171,7 @@ export const api = {
     location_type: string;
     notes?: string;
   }) {
-    const res = await fetch(`${API_BASE}/activities`, {
+    const res = await fetch(`${getApiBase()}/activities`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
@@ -169,7 +181,7 @@ export const api = {
 
   async getVerificationQueue(mosqueId: number = 1) {
     try {
-      const res = await fetch(`${API_BASE}/verifications/queue?mosque_id=${mosqueId}`, { cache: "no-store" });
+      const res = await fetch(`${getApiBase()}/verifications/queue?mosque_id=${mosqueId}`, { cache: "no-store" });
       const data = await res.json();
       return data.data || [];
     } catch {
@@ -178,7 +190,7 @@ export const api = {
   },
 
   async verifyActivity(payload: { activity_id: number; status: string; notes?: string }) {
-    const res = await fetch(`${API_BASE}/verifications/verify`, {
+    const res = await fetch(`${getApiBase()}/verifications/verify`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
@@ -188,7 +200,7 @@ export const api = {
 
   async getPedagogyEvaluation(studentId: number = 1) {
     try {
-      const res = await fetch(`${API_BASE}/pedagogy/evaluate?student_id=${studentId}`, { cache: "no-store" });
+      const res = await fetch(`${getApiBase()}/pedagogy/evaluate?student_id=${studentId}`, { cache: "no-store" });
       return res.json();
     } catch {
       return {
@@ -209,7 +221,7 @@ export const api = {
 
   async getGovernmentAggregate() {
     try {
-      const res = await fetch(`${API_BASE}/analytics/government`, { cache: "no-store" });
+      const res = await fetch(`${getApiBase()}/analytics/government`, { cache: "no-store" });
       return res.json();
     } catch {
       return {
@@ -229,7 +241,7 @@ export const api = {
 
   async getSchoolAnalytics(schoolId: number = 1) {
     try {
-      const res = await fetch(`${API_BASE}/analytics/school?school_id=${schoolId}`, { cache: "no-store" });
+      const res = await fetch(`${getApiBase()}/analytics/school?school_id=${schoolId}`, { cache: "no-store" });
       return res.json();
     } catch {
       return {
@@ -245,7 +257,7 @@ export const api = {
 
   async getAchievements(studentId: number = 1) {
     try {
-      const res = await fetch(`${API_BASE}/achievements?student_id=${studentId}`, { cache: "no-store" });
+      const res = await fetch(`${getApiBase()}/achievements?student_id=${studentId}`, { cache: "no-store" });
       return res.json();
     } catch {
       return {
@@ -257,7 +269,7 @@ export const api = {
 
   async getNotifications() {
     try {
-      const res = await fetch(`${API_BASE}/notifications`, { cache: "no-store" });
+      const res = await fetch(`${getApiBase()}/notifications`, { cache: "no-store" });
       return res.json();
     } catch {
       return { success: true, data: [] };
@@ -265,7 +277,7 @@ export const api = {
   },
 
   async sendWhatsAppNotification(payload: { phone: string; message: string; title?: string }) {
-    const res = await fetch(`${API_BASE}/notifications/whatsapp/send`, {
+    const res = await fetch(`${getApiBase()}/notifications/whatsapp/send`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
