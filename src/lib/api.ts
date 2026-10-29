@@ -1,4 +1,6 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://103.158.96.244:5000/api";
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_URL ||
+  (typeof window !== "undefined" ? "/api-proxy" : "http://103.158.96.244:5000/api");
 
 export interface DemoUser {
   id: number;
