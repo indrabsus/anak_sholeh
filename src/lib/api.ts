@@ -65,12 +65,12 @@ export const api = {
     } catch (e) {
       console.warn("Failed fetching demo users, returning default personas:", e);
       return [
-        { id: 1, name: "Ahmad Rizky Pratama", email: "siswa@anaksholeh.id", phone: "081234567801", role_name: "siswa", role_label: "Siswa / Murid", student_id: 1, points: 340, streak_days: 12 },
-        { id: 2, name: "Bapak Hendra Pratama", email: "orangtua@anaksholeh.id", phone: "081234567802", role_name: "orang_tua", role_label: "Orang Tua / Wali", parent_id: 1 },
-        { id: 3, name: "Ustadz Fauzan Al-Hafidz", email: "dkm@anaksholeh.id", phone: "081234567803", role_name: "dkm", role_label: "DKM / Guru Mengaji", mosque_name: "Masjid Agung Cimahi" },
-        { id: 4, name: "Ibu Aisyah Rahmawati, S.Pd.I", email: "guru@anaksholeh.id", phone: "081234567804", role_name: "guru_agama", role_label: "Guru Agama", school_name: "SDN Mandiri 1 Cimahi" },
-        { id: 5, name: "Admin SDN Mandiri 1", email: "sekolah@anaksholeh.id", phone: "081234567805", role_name: "admin_sekolah", role_label: "Admin Sekolah", school_name: "SDN Mandiri 1 Cimahi" },
-        { id: 6, name: "Bappeda & Disdik Cimahi", email: "pemerintah@anaksholeh.id", phone: "081234567806", role_name: "pemerintah", role_label: "Pemerintah (Disdik/Pemkot)" }
+        { id: 1, name: "Ahmad Rizki", email: "siswa@anaksholeh.id", phone: "081234567801", role_name: "siswa", role_label: "Siswa / Murid", student_id: 1, points: 250, streak_days: 12 },
+        { id: 2, name: "Bunda Siti (Orang Tua Ahmad)", email: "orangtua@anaksholeh.id", phone: "081234567802", role_name: "orang_tua", role_label: "Orang Tua / Wali", parent_id: 1 },
+        { id: 3, name: "Ust. Hendra (Ketua DKM Masjid Al-Furqon)", email: "dkm@anaksholeh.id", phone: "081234567803", role_name: "dkm", role_label: "DKM / Guru Mengaji", mosque_name: "Masjid Al-Furqon / Masjid Agung Cimahi" },
+        { id: 4, name: "Ust. Rahmat, S.Pd.I (Guru PAI)", email: "guru@anaksholeh.id", phone: "081234567804", role_name: "guru_agama", role_label: "Guru Agama", school_name: "SDN Mandiri 1 Cimahi" },
+        { id: 5, name: "Admin SDN Mandiri 1 Cimahi", email: "sekolah@anaksholeh.id", phone: "081234567805", role_name: "admin_sekolah", role_label: "Admin Sekolah", school_name: "SDN Mandiri 1 Cimahi" },
+        { id: 6, name: "Bappeda & Disdik Kota Cimahi", email: "pemerintah@anaksholeh.id", phone: "081234567806", role_name: "pemerintah", role_label: "Pemerintah (Disdik/Pemkot)" }
       ];
     }
   },
